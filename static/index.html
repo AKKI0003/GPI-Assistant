@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GPI Knowledge Assistant</title>
+<link rel="stylesheet" href="style.css?v=3" />
+</head>
+<body>
+
+<div class="app">
+
+  <aside class="ledger">
+    <div class="ledger__brand">
+      <span class="ledger__mark">GPI</span>
+      <span class="ledger__title">Knowledge Assistant</span>
+    </div>
+
+    <button class="ledger__new" id="newChatBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      New chat
+    </button>
+
+    <div class="ledger__section-label">Recent</div>
+    <div class="ledger__chats" id="chatList"></div>
+
+    <nav class="ledger__nav">
+      <a href="upload.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0-12 4 4m-4-4-4 4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+        Upload &amp; access
+      </a>
+    </nav>
+
+    <div class="ledger__footer">
+      <div class="ledger__status" id="statusLine">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        <span>connecting…</span>
+      </div>
+      <div class="ledger__user">
+        <span class="ledger__avatar" id="userAvatar" aria-hidden="true"></span>
+        <span class="ledger__user-info" id="userLine"></span>
+        <button id="logoutBtn" title="Log out">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="floor">
+    <header class="floor__header">
+      <h1 id="chatTitle">—</h1>
+      <div class="island" data-active="chat" id="dynamicIsland">
+        <span class="island__highlight"></span>
+        <a href="index.html" class="island__seg island__seg--active" data-mode="chat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Chat
+        </a>
+        <a href="upload.html" class="island__seg" data-mode="upload">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0-12 4 4m-4-4-4 4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          Upload
+        </a>
+      </div>
+      <div class="floor__actions">
+        <button id="renameBtn" title="Rename this chat">Rename</button>
+        <button id="clearBtn" title="Clear this chat">Clear</button>
+      </div>
+    </header>
+
+    <div class="floor__messages" id="messages">
+      <div class="hero" id="emptyState">
+        <div class="hero__mascot" aria-hidden="true"></div>
+        <div class="hero__greeting" id="heroGreeting">Hello</div>
+        <div class="hero__sub">
+          Ask about a company, a document, or a spreadsheet — the answer runs
+          entirely on your own machine.
+        </div>
+      </div>
+    </div>
+
+    <form class="floor__composer" id="composerForm">
+      <textarea
+        id="questionInput"
+        placeholder="Ask a question…"
+        rows="1"
+        autofocus
+      ></textarea>
+      <button type="submit" id="sendBtn">Ask</button>
+    </form>
+  </main>
+
+</div>
+
+<script src="effects.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

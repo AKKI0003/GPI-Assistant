@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "records": [
+      {
+        "id": "PB001",
+        "name": "New Product Launch Challenges",
+        "description": "Sales behavior uncertainty during new product launches",
+        "owner": "SIA",
+        "status": "Active",
+
+        "metrics": {
+          "severity": "High",
+          "impact": "Revenue unpredictability"
+        },
+
+        "relationships": {
+          "department": "D001",
+          "process": "PR001"
+        },
+
+        "additional_info": {}
+      },
+      {
+        "id": "PB002",
+        "name": "Distribution Variability",
+        "description": "Inconsistent supply chain and distribution",
+        "owner": "SIA",
+        "status": "Active",
+
+        "metrics": {
+          "severity": "High",
+          "impact": "Market inefficiency"
+        },
+
+        "relationships": {
+          "department": "D001",
+          "process": "PR002"
+        },
+
+        "additional_info": {}
+      }
+    ]
+  }
+}

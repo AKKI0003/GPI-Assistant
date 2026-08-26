@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python inspect_facts.py)",
+      "Bash(python inspect_gpi_pl.py)",
+      "Bash(python probe_gpi_page.py)",
+      "Bash(python probe_gpi_reproduce.py)",
+      "Bash(python probe_align.py)",
+      "Bash(python probe_primary_pl.py)",
+      "Bash(python probe_final.py)",
+      "Bash(python -c ' *)",
+      "Bash(ollama list *)",
+      "Bash(python import_pdf_documents.py --force)",
+      "Bash(tee /tmp/reingest.log)",
+      "Bash(python verify_fix.py)",
+      "Bash(python probe_pat_sources.py)",
+      "Bash(python probe_scope.py)",
+      "Bash(python probe_garbled.py)",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('core/direct_answer.py',encoding='utf-8'\\).read\\(\\)\\); ast.parse\\(open\\('ingestion/financial_facts.py',encoding='utf-8'\\).read\\(\\)\\); print\\('SYNTAX OK'\\)\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('core/chart_generator.py',encoding='utf-8'\\).read\\(\\)\\); print\\('chart_generator SYNTAX OK'\\)\")",
+      "Read(//tmp/**)",
+      "Bash(xargs -n1 basename)",
+      "Bash(python verify_final.py)",
+      "Bash(python /tmp/probe_missing.py)",
+      "Bash(python probe_missing.py)",
+      "Bash(python probe_e2e.py)"
+    ]
+  }
+}

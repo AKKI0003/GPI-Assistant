@@ -1,0 +1,60 @@
+{
+  "kpi": {
+    "records": [
+      {
+        "id": "KPI001",
+        "name": "Correctness",
+        "description": "Logical accuracy of outputs",
+        "owner": "SIA",
+        "status": "Tracked",
+
+        "metrics": {
+          "target": "100%",
+          "current": "95%"
+        },
+
+        "relationships": {
+          "department": "D001"
+        },
+
+        "additional_info": {}
+      },
+      {
+        "id": "KPI002",
+        "name": "Accuracy",
+        "description": "Precision of analytical outputs",
+        "owner": "SIA",
+        "status": "Tracked",
+
+        "metrics": {
+          "target": "98%",
+          "current": "92%"
+        },
+
+        "relationships": {
+          "department": "D001"
+        },
+
+        "additional_info": {}
+      },
+      {
+        "id": "KPI003",
+        "name": "Turnaround Time",
+        "description": "Time taken to deliver insights",
+        "owner": "SIA",
+        "status": "Tracked",
+
+        "metrics": {
+          "target": "2 days",
+          "current": "3 days"
+        },
+
+        "relationships": {
+          "department": "D001"
+        },
+
+        "additional_info": {}
+      }
+    ]
+  }
+}

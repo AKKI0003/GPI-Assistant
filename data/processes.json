@@ -1,0 +1,52 @@
+{
+  "process": {
+    "records": [
+      {
+        "id": "PR001",
+        "name": "Analytics Reporting Process",
+        "description": "Process to convert raw data into dashboards and reports",
+        "owner": "SIA Team",
+        "status": "Active",
+
+        "metrics": {
+          "cycle_time": "3 days",
+          "efficiency": "85%"
+        },
+
+        "relationships": {
+          "department": "D001",
+          "projects": ["P001"]
+        },
+
+        "additional_info": {
+          "steps": [
+            "Data collection",
+            "Data cleaning",
+            "Analysis",
+            "Visualization",
+            "Delivery"
+          ]
+        }
+      },
+      {
+        "id": "PR002",
+        "name": "Model Development Process",
+        "description": "Process for building machine learning models",
+        "owner": "SIA Team",
+        "status": "Active",
+
+        "metrics": {
+          "model_accuracy": "85%",
+          "deployment_time": "2 weeks"
+        },
+
+        "relationships": {
+          "department": "D001",
+          "projects": ["P002"]
+        },
+
+        "additional_info": {}
+      }
+    ]
+  }
+}

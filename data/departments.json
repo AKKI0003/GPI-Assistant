@@ -1,0 +1,74 @@
+{
+  "department": {
+    "records": [
+      {
+        "id": "D001",
+        "name": "SIA (Strategy, Insights and Analytics)",
+        "description": "A data science and analytics department responsible for generating accurate, actionable insights to support business decisions and strategic objectives.",
+        "owner": "Mr. Mohit Sharma",
+        "status": "Active",
+
+        "metrics": {
+          "kpis": {
+            "correctness": "Ensures logical correctness of outputs",
+            "accuracy": "Maintains high data precision",
+            "turnaround_time": "Delivers insights within defined timelines"
+          }
+        },
+
+        "relationships": {
+          "reports_to": "Mr. Siddharth Chawla",
+          "stakeholders": [
+            "Sales Teams",
+            "Operations",
+            "Leadership",
+            "Product Teams"
+          ],
+          "projects": ["P001", "P002"]
+        },
+
+        "additional_info": {
+          "department_type": "Data Science & Analytics",
+
+          "core_objective": "To provide the right numbers and actionable insights aligned with company goals.",
+
+          "key_functions": [
+            "Dashboarding & Reporting",
+            "Advanced Analytics",
+            "Machine Learning",
+            "AI Project Development"
+          ],
+
+          "workflow": [
+            "Stakeholders provide requirements",
+            "Project manager evaluates and assigns tasks",
+            "Analysis and execution",
+            "Report generation",
+            "Insights shared back to stakeholders"
+          ],
+
+          "main_problems": [
+            {
+              "issue": "New Product Launch (NPL)",
+              "description": "Behavioral sales challenges during launch phases"
+            },
+            {
+              "issue": "Distribution Variability",
+              "description": "Inconsistent performance across regions"
+            },
+            {
+              "issue": "PMO Effectiveness",
+              "description": "Challenges managing Permanent Merchandising Outlets"
+            }
+          ],
+
+          "tools_and_tech": [
+            "Python",
+            "Machine Learning Algorithms",
+            "Dashboarding Tools"
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "aakarshansharma46@gmail.com": {
+    "email": "aakarshansharma46@gmail.com",
+    "password_hash": "bd5804369af41f34e8787b29d81ec6ea8cda6dfbc77bec021fb452417be31b07",
+    "salt": "803dd458404630705918e6c23562cb4d",
+    "designation": "Intern",
+    "department": "IT",
+    "created_at": 1787637091.7514937,
+    "is_admin": true
+  }
+}

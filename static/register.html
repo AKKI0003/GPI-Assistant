@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Register — GPI Knowledge Assistant</title>
+<link rel="stylesheet" href="style.css?v=3" />
+</head>
+<body>
+
+<div class="auth">
+  <div class="auth__card spotlight">
+    <div class="auth__brand">GPI</div>
+    <div class="auth__subtitle">Knowledge Assistant — create an account</div>
+
+    <div id="errorBox" class="auth__error" style="display:none;"></div>
+
+    <form id="registerForm">
+      <div class="auth__field">
+        <label for="email">Company or personal email</label>
+        <input type="email" id="email" required autofocus autocomplete="username" />
+      </div>
+      <div class="auth__field">
+        <label for="password">Password (min. 8 characters)</label>
+        <input type="password" id="password" required minlength="8" autocomplete="new-password" />
+      </div>
+      <div class="auth__field">
+        <label for="designation">Designation / post</label>
+        <input type="text" id="designation" required placeholder="e.g. Regional Sales Manager" />
+      </div>
+      <div class="auth__field">
+        <label for="department">Department</label>
+        <select id="department" required>
+          <option value="" disabled selected>Loading…</option>
+        </select>
+      </div>
+      <button type="submit" class="auth__submit" id="submitBtn">Create account</button>
+    </form>
+
+    <div class="auth__switch">
+      Already have an account? <a href="login.html">Log in</a>
+    </div>
+  </div>
+</div>
+
+<script src="effects.js"></script>
+<script>
+const AUTH_TOKEN_KEY = "gpi_auth_token";
+const AUTH_USER_KEY  = "gpi_auth_user";
+
+if (localStorage.getItem(AUTH_TOKEN_KEY)) {
+  window.location.href = "index.html";
+}
+
+animateStagger(document.querySelectorAll(".auth__field, .auth__submit"));
+
+const departmentSelect = document.getElementById("department");
+
+// Department options come from the server (core/config.py's
+// SIGNUP_DEPARTMENTS) rather than being hardcoded here, so editing that
+// one list is the only place a department ever needs to be added/removed.
+fetch("/auth/departments")
+  .then(r => r.json())
+  .then(depts => {
+    departmentSelect.innerHTML = '<option value="" disabled selected>Select your department…</option>' +
+      depts.map(d => `<option value="${d}">${d}</option>`).join("");
+  })
+  .catch(() => {
+    departmentSelect.innerHTML = '<option value="">Could not load departments — refresh the page</option>';
+  });
+
+const form = document.getElementById("registerForm");
+const errorBox = document.getElementById("errorBox");
+const submitBtn = document.getElementById("submitBtn");
+
+form.onsubmit = async (e) => {
+  e.preventDefault();
+  errorBox.style.display = "none";
+  submitBtn.disabled = true;
+  try {
+    const res = await fetch("/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: document.getElementById("email").value.trim(),
+        password: document.getElementById("password").value,
+        designation: document.getElementById("designation").value.trim(),
+        department: departmentSelect.value,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || "Registration failed.");
+    localStorage.setItem(AUTH_TOKEN_KEY, data.token);
+    localStorage.setItem(AUTH_USER_KEY, JSON.stringify(data.user));
+    window.location.href = "index.html";
+  } catch (err) {
+    errorBox.textContent = err.message;
+    errorBox.style.display = "block";
+  } finally {
+    submitBtn.disabled = false;
+  }
+};
+</script>
+
+</body>
+</html>

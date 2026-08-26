@@ -1,0 +1,185 @@
+{
+  "categories": {
+    "company": [
+      "company",
+      "organization",
+      "business",
+      "enterprise",
+      "firm",
+      "profile",
+      "overview",
+      "about company",
+      "company overview",
+      "organization overview"
+    ],
+    "department": [
+      "department",
+      "departments",
+      "team",
+      "teams",
+      "division",
+      "divisions",
+      "function",
+      "functions",
+      "unit",
+      "units",
+      "hr",
+      "human resources",
+      "finance",
+      "marketing",
+      "sales",
+      "operations",
+      "technology",
+      "information technology"
+    ],
+    "project": [
+      "project",
+      "projects",
+      "initiative",
+      "initiatives",
+      "program",
+      "programs",
+      "engagement"
+    ],
+    "process": [
+      "process",
+      "processes",
+      "workflow",
+      "workflows",
+      "procedure",
+      "procedures",
+      "operation",
+      "operations"
+    ],
+    "kpi": [
+      "kpi",
+      "kpis",
+      "metric",
+      "metrics",
+      "target",
+      "targets",
+      "measure",
+      "measures"
+    ],
+    "problem": [
+      "problem",
+      "problems",
+      "issue",
+      "issues",
+      "risk",
+      "risks",
+      "challenge",
+      "challenges",
+      "blocker",
+      "blockers"
+    ],
+    "product": [
+      "product",
+      "products",
+      "portfolio",
+      "brand",
+      "brands",
+      "offering",
+      "offerings",
+      "segmentation",
+      "segment",
+      "segments",
+      "product segmentation",
+      "portfolio segmentation"
+    ],
+    "competitor": [
+      "competitor",
+      "competitors",
+      "rival",
+      "rivals",
+      "competition",
+      "market competition",
+      "competitive landscape"
+    ]
+  },
+  "actions": {
+    "overview": [
+      "overview",
+      "summary",
+      "describe",
+      "about",
+      "introduction",
+      "high level"
+    ],
+    "detail": [
+      "detail",
+      "details",
+      "detailed",
+      "deep",
+      "deeply",
+      "thorough",
+      "thoroughly",
+      "comprehensive",
+      "elaborate",
+      "expand",
+      "explain"
+    ],
+    "list": [
+      "list",
+      "show",
+      "display",
+      "all",
+      "enumerate"
+    ],
+    "compare": [
+      "compare",
+      "comparison",
+      "versus",
+      "vs",
+      "difference",
+      "differentiate"
+    ],
+    "owner": [
+      "owner",
+      "owners",
+      "responsible",
+      "accountable",
+      "lead",
+      "manager"
+    ],
+    "relationship": [
+      "relationship",
+      "dependency",
+      "dependencies",
+      "connected",
+      "linked",
+      "interaction"
+    ]
+  },
+  "followups": [
+    "it",
+    "its",
+    "they",
+    "them",
+    "their",
+    "that",
+    "those",
+    "these",
+    "more",
+    "details",
+    "detail",
+    "expand",
+    "elaborate",
+    "overview",
+    "summary",
+    "other",
+    "another",
+    "owner",
+    "owners"
+  ],
+  "corrections": [
+    "no",
+    "actually",
+    "instead",
+    "rather",
+    "i meant",
+    "not that",
+    "different",
+    "change topic"
+  ]
+}

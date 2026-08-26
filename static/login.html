@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Log in — GPI Knowledge Assistant</title>
+<link rel="stylesheet" href="style.css?v=3" />
+</head>
+<body>
+
+<div class="auth">
+  <div class="auth__card spotlight">
+    <div class="auth__brand">GPI</div>
+    <div class="auth__subtitle">Knowledge Assistant — log in</div>
+
+    <div id="errorBox" class="auth__error" style="display:none;"></div>
+
+    <form id="loginForm">
+      <div class="auth__field">
+        <label for="email">Company or personal email</label>
+        <input type="email" id="email" required autofocus autocomplete="username" />
+      </div>
+      <div class="auth__field">
+        <label for="password">Password</label>
+        <input type="password" id="password" required autocomplete="current-password" />
+      </div>
+      <button type="submit" class="auth__submit" id="submitBtn">Log in</button>
+    </form>
+
+    <div class="auth__switch">
+      Don't have an account? <a href="register.html">Register</a>
+    </div>
+  </div>
+</div>
+
+<script src="effects.js"></script>
+<script>
+const AUTH_TOKEN_KEY = "gpi_auth_token";
+const AUTH_USER_KEY  = "gpi_auth_user";
+
+// Already logged in -- skip straight to the chat.
+if (localStorage.getItem(AUTH_TOKEN_KEY)) {
+  window.location.href = "index.html";
+}
+
+const form = document.getElementById("loginForm");
+const errorBox = document.getElementById("errorBox");
+const submitBtn = document.getElementById("submitBtn");
+
+animateStagger(document.querySelectorAll(".auth__field, .auth__submit"));
+
+form.onsubmit = async (e) => {
+  e.preventDefault();
+  errorBox.style.display = "none";
+  submitBtn.disabled = true;
+  try {
+    const res = await fetch("/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: document.getElementById("email").value.trim(),
+        password: document.getElementById("password").value,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || "Login failed.");
+    localStorage.setItem(AUTH_TOKEN_KEY, data.token);
+    localStorage.setItem(AUTH_USER_KEY, JSON.stringify(data.user));
+    window.location.href = "index.html";
+  } catch (err) {
+    errorBox.textContent = err.message;
+    errorBox.style.display = "block";
+  } finally {
+    submitBtn.disabled = false;
+  }
+};
+</script>
+
+</body>
+</html>

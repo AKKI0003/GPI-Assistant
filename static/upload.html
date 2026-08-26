@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Upload &amp; access — GPI Knowledge Assistant</title>
+<link rel="stylesheet" href="style.css?v=3" />
+</head>
+<body>
+
+<div class="app">
+
+  <aside class="ledger">
+    <div class="ledger__brand">
+      <span class="ledger__mark">GPI</span>
+      <span class="ledger__title">Knowledge Assistant</span>
+    </div>
+    <nav class="ledger__nav">
+      <a href="index.html">← Back to chat</a>
+    </nav>
+    <div class="ledger__user" style="margin-top:auto;">
+      <span id="userLine"></span>
+      <button id="logoutBtn">Log out</button>
+    </div>
+  </aside>
+
+  <main class="floor">
+    <header class="floor__header" style="border-bottom:none;">
+      <span></span>
+      <div class="island" data-active="upload" id="dynamicIsland">
+        <span class="island__highlight"></span>
+        <a href="index.html" class="island__seg" data-mode="chat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Chat
+        </a>
+        <a href="upload.html" class="island__seg island__seg--active" data-mode="upload">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0-12 4 4m-4-4-4 4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          Upload
+        </a>
+      </div>
+      <span></span>
+    </header>
+    <div class="upload-page">
+      <h1>Upload a document</h1>
+      <div class="subtitle">
+        PDF, XLSX, XLS, or CSV. Choose who can see it — including through
+        the chatbot — or leave it open to everyone.
+      </div>
+
+      <div class="upload-card spotlight">
+        <h2>File</h2>
+        <div class="dropzone" id="dropzone">
+          <div id="dropzoneLabel">Drag a file here, or <strong>click to browse</strong></div>
+          <input type="file" id="fileInput" accept=".pdf,.xlsx,.xls,.csv" style="display:none;" />
+        </div>
+
+        <h2>Who can access this file?</h2>
+        <div class="access-mode">
+          <button type="button" class="active" data-mode="everyone">Everyone</button>
+          <button type="button" data-mode="departments">Specific department(s)</button>
+          <button type="button" data-mode="users">Specific people</button>
+        </div>
+
+        <div id="deptPicker" style="display:none;">
+          <div class="chip-input" id="deptChips">
+            <input type="text" id="deptInput" placeholder="Type a department, press Enter…" list="deptList" />
+          </div>
+          <datalist id="deptList"></datalist>
+        </div>
+
+        <div id="userPicker" style="display:none;">
+          <div class="chip-input" id="userChips">
+            <input type="email" id="userInput" placeholder="Type an email, press Enter…" />
+          </div>
+        </div>
+
+        <button class="upload-submit" id="uploadBtn" style="margin-top:16px;">Upload</button>
+        <div class="upload-status" id="uploadStatus"></div>
+      </div>
+
+      <div class="upload-card spotlight">
+        <h2>Existing files</h2>
+        <div class="file-list" id="fileList">Loading…</div>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<script src="effects.js"></script>
+<script src="upload.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+{
+  "project": {
+    "records": [
+      {
+        "id": "P001",
+        "name": "Sales Insight Dashboard",
+        "description": "Dashboard to analyze sales performance and behavioral trends",
+        "owner": "SIA Team",
+        "status": "Active",
+
+        "metrics": {
+          "completion": "70%",
+          "impact": "Improved sales visibility"
+        },
+
+        "relationships": {
+          "department": "D001",
+          "processes": ["PR001"]
+        },
+
+        "additional_info": {
+          "focus_area": "Sales analytics and decision support"
+        }
+      },
+      {
+        "id": "P002",
+        "name": "Distribution Optimization Model",
+        "description": "Machine learning model to improve distribution consistency",
+        "owner": "SIA Team",
+        "status": "In Progress",
+
+        "metrics": {
+          "accuracy": "87%",
+          "impact": "Reduced distribution inefficiency"
+        },
+
+        "relationships": {
+          "department": "D001",
+          "processes": ["PR002"]
+        },
+
+        "additional_info": {
+          "technology": "ML-based optimization"
+        }
+      }
+    ]
+  }
+}

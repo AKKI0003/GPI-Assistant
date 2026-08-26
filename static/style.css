@@ -1,0 +1,1096 @@
+/* ── Tokens ──────────────────────────────────────────────────────────────
+   Dark, warm-neutral theme (near-black charcoal, not blue-black) with a
+   single warm coral/terracotta accent -- the same visual family as
+   Claude's own dark mode. Everything else (sidebar, message bubbles,
+   composer) previously used a light "paper" surface as the main working
+   area; this rewrite makes the dark surface the primary one throughout,
+   with the message-bubble/card layer one step lighter than the page
+   background for depth, same as any dark chat UI. Class names are
+   UNCHANGED from the previous theme -- only the token values and a
+   handful of surface-specific rules changed -- so index.html/app.js
+   need no changes to pick this up.
+   System font stacks only (no Google Fonts / CDN calls) since this
+   needs to work from a locked-down company laptop that may not be able
+   to reach external font hosts at all. */
+:root {
+  /* Palette sampled directly from the GPI splash screenshot (deep navy
+     page, warm gold accent text, bright cyan rule/glow) rather than
+     approximated -- background #0c1b31, gold #e4a54a, cyan #33d6ff were
+     all pixel-sampled from the actual image. */
+  --bg:          #0b1626;   /* page background -- deep navy, matches splash */
+  --bg-raised:   #101f35;   /* sidebar / header / composer surface */
+  --bg-line:     #1f3352;   /* hairline borders on dark surfaces */
+
+  --surface:      #132540;  /* message-bubble / card surface, one step up from --bg */
+  --surface-dim:  #17304f;  /* table header cells, subtle fills */
+  --surface-line: #2a4468;  /* borders on the card surface */
+
+  --coral:      #e4a54a;   /* primary accent -- warm gold (was terracotta) */
+  --coral-dim:  #b9843a;
+  --teal:       #33d6ff;   /* secondary accent -- bright cyan, matches splash rule */
+  --rust:       #d9765a;
+
+  --text:        #eef1f6;   /* primary text on dark surfaces */
+  --text-dim:    #8ea0bb;   /* secondary/meta text -- cool blue-grey, fits navy bg */
+  --text-strong: #ffffff;
+
+  --font-display: Georgia, "Iowan Old Style", "Palatino Linotype", ui-serif, serif;
+  --font-body:    -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono:    ui-monospace, "SFMono-Regular", "Consolas", "Liberation Mono", monospace;
+
+  /* Softer, rounder default across the whole app -- was 6px, which reads
+     as sharp/"boxy" on cards, bubbles, and inputs at this size. Bumped
+     up across the board; a couple of larger surfaces (sidebar panel,
+     composer, message bubbles) use their own, even larger radius below
+     so the UI doesn't feel like a grid of flat rectangles. */
+  --radius: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* ── Scrollbars ──────────────────────────────────────────────────────
+   Default browser scrollbars render light/white regardless of the
+   page's own color scheme unless `color-scheme` (or an explicit
+   scrollbar-color) tells the browser otherwise -- on this dark theme
+   that shows up as a bright white bar wherever anything scrolls (the
+   messages panel, the chat list, textareas). Styling it dark/thin here
+   applies everywhere at once. */
+html {
+  color-scheme: dark;
+}
+* {
+  scrollbar-width: thin;                              /* Firefox */
+  scrollbar-color: var(--surface-line) transparent;   /* Firefox */
+}
+*::-webkit-scrollbar {                 /* Chrome / Edge / Brave / Safari */
+  width: 9px;
+  height: 9px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--surface-line);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-dim);
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 272px 1fr;
+  height: 100vh;
+  /* A little breathing room around the whole layout instead of the
+     content running flush to the browser's own corners -- this is a
+     big part of what reads as "boxy": nothing anywhere had any outer
+     margin, so every edge was a hard 90-degree meeting of two flat
+     panels with no visual separation at all. */
+  padding: 10px;
+  gap: 10px;
+}
+
+/* ── Sidebar ─────────────────────────────────────────────────────────── */
+
+.ledger {
+  background: var(--bg-raised);
+  border: 1px solid var(--bg-line);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px;
+  gap: 16px;
+  overflow: hidden;
+  min-height: 0;   /* see comment above .floor -- same fix, same reason */
+  box-shadow: 0 8px 28px -14px rgba(0, 0, 0, 0.55);
+}
+
+.ledger__brand {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--bg-line);
+}
+
+.ledger__mark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--coral);
+  letter-spacing: 0.02em;
+}
+
+.ledger__title {
+  font-size: 12px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.ledger__new {
+  background: rgba(228, 165, 74, 0.08);
+  border: 1px solid var(--coral-dim);
+  color: var(--coral);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+.ledger__new svg { width: 15px; height: 15px; flex-shrink: 0; }
+.ledger__new:hover {
+  background: var(--coral);
+  color: var(--bg);
+}
+
+.ledger__section-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  padding: 0 8px;
+  margin-top: 2px;
+}
+
+.ledger__chats {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0 -8px;
+}
+
+.chat-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 10px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  font-size: 13.5px;
+  color: var(--text-dim);
+  cursor: pointer;
+  gap: 6px;
+}
+.chat-item:hover { background: rgba(255,255,255,0.05); color: var(--text); border-color: var(--bg-line); }
+.chat-item.active {
+  background: rgba(228,165,74,0.14);
+  color: var(--text);
+  border-left: 2px solid var(--coral);
+  padding-left: 8px;
+}
+.chat-item__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.chat-item__del {
+  opacity: 0;
+  background: none;
+  border: none;
+  color: var(--rust);
+  font-size: 13px;
+  padding: 0 4px;
+}
+.chat-item:hover .chat-item__del { opacity: 0.8; }
+.chat-item__del:hover { opacity: 1; }
+
+.ledger__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ledger__nav a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px 10px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+}
+.ledger__nav a svg { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.85; }
+.ledger__nav a:hover {
+  background: rgba(255,255,255,0.05);
+  color: var(--text);
+  border-color: var(--bg-line);
+}
+
+/* The bottom-of-sidebar block ("Upload & access" status + signed-in-as
+   row) previously sat directly on the sidebar's own hard-edged bottom
+   corner with nothing but a couple of top-border hairlines separating
+   its rows -- that flat, undecorated corner is the "boxy corner" this
+   most visibly reads as, and with no background/border of its own it
+   just read as loose lines of text. This wraps both rows in one
+   clearly-visible, slightly-raised card with real padding, an icon on
+   the status line, and a proper avatar + two-line identity block on
+   the user row -- an actual account footer, not stray text. */
+.ledger__footer {
+  background: var(--bg);
+  border: 1px solid var(--surface-line);
+  border-radius: var(--radius);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ledger__status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  color: var(--text-dim);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--bg-line);
+}
+.ledger__status svg { width: 13px; height: 13px; flex-shrink: 0; color: var(--teal); }
+
+.ledger__user {
+  font-size: 11.5px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.ledger__avatar {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--coral) 0%, var(--coral-dim) 100%);
+  color: #241811;
+  font-weight: 700;
+  font-size: 12.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ledger__user-info {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
+  font-size: 12px;
+}
+.ledger__user button {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  color: var(--text-dim);
+  padding: 6px;
+}
+.ledger__user button svg { width: 14px; height: 14px; }
+.ledger__user button:hover { color: var(--rust); border-color: var(--surface-line); background: rgba(255,255,255,0.04); }
+
+/* ── Main floor ──────────────────────────────────────────────────────── */
+
+.floor {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-raised);
+  border: 1px solid var(--bg-line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;   /* clips the header/messages/composer to the rounded corners */
+  box-shadow: 0 8px 28px -14px rgba(0, 0, 0, 0.55);
+  color: var(--text);
+  min-width: 0;
+  /* .floor is a CSS GRID ITEM (child of .app), and a grid/flex item's
+     default min-height is "auto" -- NOT 0 -- which means its natural
+     content height can grow past its allotted grid row instead of
+     being constrained by it. .floor__messages below already has
+     overflow-y:auto and was ALWAYS meant to be the one thing that
+     scrolls, but without this, a long chat made .floor itself (and
+     therefore .app, and therefore the whole page/body) taller than
+     100vh, so the BROWSER scrolled the entire page -- sidebar
+     included -- instead of just the messages panel scrolling
+     internally. This is the actual fix for "sidebar scrolls along
+     with the chat"; .ledger gets the identical fix for the same
+     reason (a long chat list could do the same thing to it).
+     https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout/Box_alignment_in_grid_layout#the_min-size_auto_issue */
+  min-height: 0;
+}
+
+.floor__header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--bg-line);
+  background: transparent;
+}
+.floor__header h1 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-strong);
+}
+.floor__actions { display: flex; gap: 8px; }
+.floor__actions button {
+  background: transparent;
+  border: 1px solid var(--surface-line);
+  color: var(--text-dim);
+  border-radius: var(--radius);
+  font-size: 12px;
+  padding: 6px 10px;
+}
+.floor__actions button:hover { border-color: var(--text-dim); color: var(--text); }
+
+.floor__messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.empty {
+  margin: auto;
+  max-width: 380px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.msg { display: flex; flex-direction: column; gap: 6px; max-width: 780px; }
+.msg--user { align-self: flex-end; align-items: flex-end; }
+.msg--assistant { align-self: flex-start; align-items: flex-start; }
+
+.msg__role {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+
+.msg__body {
+  border-radius: var(--radius-lg);
+  padding: 13px 17px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+.msg--user .msg__body {
+  background: linear-gradient(135deg, var(--coral) 0%, var(--coral-dim) 100%);
+  color: #241811;
+  border-bottom-right-radius: 6px;   /* a small "tail" corner reads as a chat bubble, not a card */
+}
+.msg--assistant .msg__body {
+  /* Translucent glass-panel look instead of a flat opaque card -- backed
+     by backdrop-filter so the faint aurora glow behind the chat still
+     shows through very slightly. Falls back to the plain --surface
+     color on browsers without backdrop-filter support (rare). */
+  background: rgba(19, 37, 64, 0.68);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  border-bottom-left-radius: 6px;
+}
+.msg--restricted .msg__body {
+  background: rgba(19, 37, 64, 0.68);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid var(--rust);
+  color: var(--text);
+  border-bottom-left-radius: 6px;
+}
+
+.msg__body table {
+  border-collapse: collapse;
+  margin: 10px 0;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.msg__body th, .msg__body td {
+  border: 1px solid var(--surface-line);
+  padding: 5px 10px;
+  text-align: right;
+}
+.msg__body th:first-child, .msg__body td:first-child { text-align: left; }
+.msg__body th {
+  background: var(--surface-dim);
+  font-family: var(--font-body);
+  font-weight: 600;
+  text-align: left;
+  color: var(--text);
+}
+.msg__body code {
+  font-family: var(--font-mono);
+  background: var(--surface-dim);
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-size: 0.92em;
+  color: var(--text);
+}
+.msg__body strong { color: var(--text-strong); }
+
+.msg__chart {
+  margin-top: 8px;
+  max-width: 100%;
+  border: 1px solid var(--surface-line);
+  border-radius: var(--radius);
+  background: #fff;  /* charts are rendered with a white matplotlib background -- keep the frame white so they don't look clipped/mismatched */
+}
+
+.msg__meta {
+  font-size: 10.5px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+
+.thinking {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.thinking span {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--coral);
+  animation: pulse 1.1s infinite ease-in-out;
+}
+.thinking span:nth-child(2) { animation-delay: 0.15s; }
+.thinking span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes pulse {
+  0%, 80%, 100% { opacity: 0.25; transform: scale(0.85); }
+  40% { opacity: 1; transform: scale(1); }
+}
+
+/* ── Composer ────────────────────────────────────────────────────────── */
+
+.floor__composer {
+  display: flex;
+  gap: 10px;
+  padding: 14px 24px 22px;
+  border-top: 1px solid var(--bg-line);
+  background: transparent;
+}
+.floor__composer textarea {
+  flex: 1;
+  resize: none;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: var(--radius-lg);
+  /* Translucent glass pill instead of a flat solid rectangle -- the
+     faint background glow shows through very slightly, and the field
+     no longer reads as just another opaque box stacked under the
+     messages panel. */
+  background: rgba(19, 37, 64, 0.55);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14.5px;
+  padding: 13px 18px;
+  line-height: 1.4;
+  max-height: 160px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.floor__composer textarea::placeholder { color: var(--text-dim); }
+.floor__composer textarea:focus {
+  outline: none;
+  border-color: rgba(228, 165, 74, 0.55);
+  background: rgba(19, 37, 64, 0.75);
+  box-shadow: 0 0 0 3px rgba(var(--coral-rgb), 0.14);
+}
+.floor__composer button {
+  background: var(--coral);
+  border: none;
+  color: #241811;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  padding: 0 24px;
+  font-size: 14px;
+}
+.floor__composer button:hover { background: var(--coral-dim); }
+.floor__composer button:disabled { opacity: 0.5; cursor: default; }
+
+/* ── Auth pages (login/register) + upload page ──────────────────────────── */
+
+.auth {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  padding: 24px;
+}
+.auth__card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--surface);
+  border: 1px solid var(--surface-line);
+  border-radius: 10px;
+  padding: 32px 28px;
+}
+.auth__brand {
+  font-family: var(--font-display);
+  color: var(--coral);
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.auth__subtitle {
+  color: var(--text-dim);
+  font-size: 13px;
+  margin-bottom: 24px;
+}
+.auth__field { margin-bottom: 14px; display: flex; flex-direction: column; gap: 5px; }
+.auth__field label { font-size: 12.5px; color: var(--text-dim); }
+.auth__field input, .auth__field select {
+  background: var(--bg);
+  border: 1px solid var(--surface-line);
+  border-radius: var(--radius);
+  color: var(--text);
+  padding: 9px 11px;
+  font-size: 14px;
+  font-family: inherit;
+}
+.auth__field input:focus, .auth__field select:focus { outline: none; border-color: var(--coral); }
+.auth__submit {
+  width: 100%;
+  background: var(--coral);
+  border: none;
+  color: #241811;
+  font-weight: 600;
+  border-radius: var(--radius);
+  padding: 11px;
+  font-size: 14.5px;
+  margin-top: 6px;
+}
+.auth__submit:hover { background: var(--coral-dim); }
+.auth__submit:disabled { opacity: 0.5; }
+.auth__switch { margin-top: 18px; font-size: 13px; color: var(--text-dim); text-align: center; }
+.auth__switch a { color: var(--coral); text-decoration: none; }
+.auth__switch a:hover { text-decoration: underline; }
+.auth__error {
+  background: rgba(217,118,90,0.12);
+  border: 1px solid var(--rust);
+  color: #f2c1af;
+  border-radius: var(--radius);
+  padding: 9px 12px;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+
+.upload-page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 32px 28px;
+}
+.upload-page h1 {
+  font-family: var(--font-display);
+  color: var(--text-strong);
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+.upload-page .subtitle { color: var(--text-dim); font-size: 13.5px; margin-bottom: 28px; }
+
+.upload-card {
+  background: var(--surface);
+  border: 1px solid var(--surface-line);
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.upload-card h2 { font-size: 15px; margin: 0 0 14px; color: var(--text-strong); }
+
+.dropzone {
+  border: 1.5px dashed var(--surface-line);
+  border-radius: var(--radius);
+  padding: 28px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 13.5px;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+.dropzone:hover, .dropzone.dragover { border-color: var(--coral); color: var(--text); }
+.dropzone strong { color: var(--coral); }
+
+.access-mode {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.access-mode button {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--surface-line);
+  color: var(--text-dim);
+  border-radius: var(--radius);
+  padding: 8px;
+  font-size: 12.5px;
+}
+.access-mode button.active { border-color: var(--coral); color: var(--coral); }
+
+.chip-input {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  border: 1px solid var(--surface-line);
+  border-radius: var(--radius);
+  padding: 8px;
+  min-height: 40px;
+  background: var(--bg);
+}
+.chip {
+  background: rgba(228,165,74,0.16);
+  color: var(--coral);
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 12.5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.chip button { background: none; border: none; color: var(--coral); padding: 0; font-size: 12px; }
+.chip-input input {
+  flex: 1;
+  min-width: 120px;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 13px;
+}
+.chip-input input:focus { outline: none; }
+
+.upload-submit {
+  background: var(--coral);
+  border: none;
+  color: #241811;
+  font-weight: 600;
+  border-radius: var(--radius);
+  padding: 10px 20px;
+  font-size: 14px;
+}
+.upload-submit:hover { background: var(--coral-dim); }
+.upload-submit:disabled { opacity: 0.5; }
+
+.file-list { display: flex; flex-direction: column; gap: 8px; }
+.file-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--surface-line);
+  border-radius: var(--radius);
+  font-size: 13px;
+}
+.file-row__name { color: var(--text); }
+.file-row__access { color: var(--text-dim); font-size: 12px; }
+
+.upload-status { font-size: 13px; margin-top: 10px; }
+.upload-status.ok { color: var(--teal); }
+.upload-status.error { color: var(--rust); }
+
+@media (max-width: 720px) {
+  .app { grid-template-columns: 1fr; padding: 0; gap: 0; }
+  .ledger { display: none; }
+  .floor { border-radius: 0; border: none; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   Visual effects layer -- animated backgrounds, spotlight glow, motion.
+
+   Everything below is ADDITIVE: no rule above this line was changed, no
+   class name was renamed, nothing here is required for the app to
+   function -- if effects.js isn't loaded on a page, every rule below
+   just sits inactive (a .spotlight card falls back to its plain static
+   background; the aurora layer still renders since it's pure CSS, but
+   even that degrades to a static gradient if @keyframes are somehow
+   unsupported). Pure CSS/vanilla JS throughout, same zero-CDN,
+   zero-build-step constraint as the rest of this app -- this is the
+   "react bits" look (aurora backgrounds, spotlight-follow cards, glowing
+   gradient borders, smooth entrance motion) achieved without React.
+   ══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --coral-rgb: 228, 165, 74;   /* gold, #e4a54a */
+  --teal-rgb:  51, 214, 255;   /* cyan, #33d6ff */
+}
+
+/* ── Aurora background ───────────────────────────────────────────────
+   Three softly-blurred, slowly-drifting gradient blobs behind the auth
+   pages (and, much more subtly, the chat page) -- CSS-only, no images,
+   no canvas, negligible CPU cost since only `transform` is animated. */
+@keyframes aurora-drift-1 {
+  0%, 100% { transform: translate(-10%, -10%) scale(1); }
+  50%      { transform: translate(8%, 6%) scale(1.15); }
+}
+@keyframes aurora-drift-2 {
+  0%, 100% { transform: translate(6%, 8%) scale(1); }
+  50%      { transform: translate(-8%, -4%) scale(1.2); }
+}
+@keyframes aurora-drift-3 {
+  0%, 100% { transform: translate(0%, 0%) scale(1); }
+  50%      { transform: translate(-6%, 10%) scale(1.1); }
+}
+
+.auth {
+  position: relative;
+  overflow: hidden;
+}
+.auth::before,
+.auth::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+  z-index: 0;
+}
+.auth::before {
+  width: 46vw; height: 46vw;
+  top: -12vw; left: -10vw;
+  background: radial-gradient(circle, rgba(var(--coral-rgb), 0.30), transparent 70%);
+  animation: aurora-drift-1 22s ease-in-out infinite;
+}
+.auth::after {
+  width: 40vw; height: 40vw;
+  bottom: -14vw; right: -8vw;
+  background: radial-gradient(circle, rgba(var(--teal-rgb), 0.24), transparent 70%);
+  animation: aurora-drift-2 26s ease-in-out infinite;
+}
+.auth__card { position: relative; z-index: 1; }
+
+/* A faint version of the same effect behind the main chat/sidebar layout
+   -- kept very subtle (low opacity, large/slow blobs) so it reads as
+   ambient depth, not a distraction while reading answers. */
+.app { position: relative; }
+.app::before {
+  content: "";
+  position: fixed;
+  width: 50vw; height: 50vw;
+  top: -20vw; right: -15vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--coral-rgb), 0.05), transparent 70%);
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+  animation: aurora-drift-3 30s ease-in-out infinite;
+}
+.ledger, .floor { position: relative; z-index: 1; }
+
+/* ── Spotlight-follow cards ──────────────────────────────────────────
+   Paired with effects.js's initSpotlights(): a soft glow that tracks
+   the cursor across the card surface, positioned via the --spot-x/
+   --spot-y custom properties effects.js updates on pointermove. */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    360px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    rgba(var(--coral-rgb), 0.14),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.spotlight:hover::before { opacity: 1; }
+.spotlight > * { position: relative; z-index: 1; }
+
+/* ── Entrance motion ──────────────────────────────────────────────────
+   Triggered by effects.js's animateIn()/animateStagger() adding this
+   class -- a message, chat-list item, or form field settles in with a
+   short fade+rise instead of snapping into place. */
+@keyframes enter-fade-rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.enter-anim { animation: enter-fade-rise 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* ── Glow / gradient treatments ──────────────────────────────────────── */
+
+.ledger__mark {
+  position: relative;
+  animation: mark-glow 3.2s ease-in-out infinite;
+}
+@keyframes mark-glow {
+  0%, 100% { text-shadow: 0 0 0 rgba(var(--coral-rgb), 0); }
+  50%      { text-shadow: 0 0 14px rgba(var(--coral-rgb), 0.55); }
+}
+
+.auth__brand {
+  background: linear-gradient(120deg, var(--coral) 0%, #f5c37f 45%, var(--coral) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: brand-sheen 5s linear infinite;
+  display: inline-block;
+}
+@keyframes brand-sheen {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Primary buttons: subtle gradient + lift-on-hover + soft glow, instead
+   of a flat single-color fill. Same colors as before (--coral/
+   --coral-dim), just given a bit more life. */
+.floor__composer button,
+.auth__submit,
+.upload-submit {
+  background: linear-gradient(135deg, var(--coral) 0%, var(--coral-dim) 100%);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.15s ease;
+}
+.floor__composer button:hover,
+.auth__submit:hover,
+.upload-submit:hover {
+  background: linear-gradient(135deg, #eebb6e 0%, var(--coral) 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px -6px rgba(var(--coral-rgb), 0.55);
+}
+.floor__composer button:active,
+.auth__submit:active,
+.upload-submit:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+.floor__composer button:disabled:hover,
+.auth__submit:disabled:hover,
+.upload-submit:disabled:hover {
+  transform: none;
+  box-shadow: none;
+  background: var(--coral);
+}
+
+.ledger__new {
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.15s ease, color 0.15s ease;
+}
+.ledger__new:hover {
+  box-shadow: 0 4px 16px -4px rgba(var(--coral-rgb), 0.45);
+  transform: translateY(-1px);
+}
+.ledger__new:active { transform: translateY(0); }
+
+/* Active chat item: animated gradient edge instead of a flat 2px line. */
+.chat-item {
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+.chat-item.active {
+  border-left: 2px solid transparent;
+  background:
+    linear-gradient(rgba(228,165,74,0.14), rgba(228,165,74,0.14)) padding-box,
+    linear-gradient(180deg, var(--coral), var(--teal)) 0 0 / 2px 100% no-repeat border-box;
+  border-left-color: transparent;
+}
+.chat-item:hover { transform: translateX(2px); }
+
+/* Auth/upload card: gains the spotlight glow + a slightly livelier
+   border-on-hover, without changing its size or layout. */
+.auth__card, .upload-card {
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.auth__card:hover, .upload-card:hover {
+  border-color: rgba(var(--coral-rgb), 0.35);
+  box-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.4);
+}
+
+/* Focus states get a soft glow to match the new hover treatments. */
+.auth__field input:focus,
+.auth__field select:focus,
+.floor__composer textarea:focus {
+  box-shadow: 0 0 0 3px rgba(var(--coral-rgb), 0.18);
+}
+
+/* Assistant "thinking" indicator: slightly richer motion (a traveling
+   glow) rather than three plain pulsing dots. */
+.thinking span {
+  box-shadow: 0 0 6px rgba(var(--coral-rgb), 0.6);
+}
+
+/* ── Dynamic island (Chat / Upload switcher) ──────────────────────────
+   A pill-shaped switcher fixed at the top-center of the header, styled
+   after iOS's Dynamic Island: a sliding highlight morphs between the
+   two segments, and the whole pill grows in from a small dot on page
+   load. Since each page (index.html/upload.html) is a real, separate
+   page load rather than an SPA route, the "morph between pages" feel
+   comes from the grow-in entrance animation replaying on arrival at
+   the new page, immediately picking up where the previous page's
+   pill visually left off (same size/position) -- the highlight itself
+   is positioned via a `data-active` attribute set once, inline, before
+   first paint (see index.html/upload.html), so there's no flash of the
+   wrong segment highlighted before JS runs. */
+@keyframes island-grow-in {
+  from { opacity: 0; transform: translateX(-50%) scale(0.4); }
+  to   { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+.island {
+  position: absolute;
+  left: 50%;
+  top: 14px;
+  transform: translateX(-50%);
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  background: var(--surface);
+  border: 1px solid var(--surface-line);
+  border-radius: 999px;
+  box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.5);
+  z-index: 5;
+  animation: island-grow-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.island__seg {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  white-space: nowrap;
+}
+.island__seg svg { width: 14px; height: 14px; opacity: 0.85; }
+.island__seg--active { color: var(--bg); }
+.island__highlight {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--coral) 0%, var(--teal) 130%);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 0;
+}
+.island[data-active="upload"] .island__highlight {
+  transform: translateX(100%);
+}
+@media (max-width: 720px) {
+  .island { position: static; transform: none; margin: 0 auto 8px; animation: none; }
+  @keyframes island-grow-in { from { opacity: 0; } to { opacity: 1; } }
+}
+
+/* ── Hero (empty-state greeting + mascot) ─────────────────────────────
+   Shown only when a chat has no messages yet -- a big Claude-style
+   greeting plus the mascot, both breathing gently in place. As soon as
+   the first message is sent, app.js adds .hero--leaving, which fades
+   and shrinks the whole block out before it's removed from the flow,
+   rather than it just vanishing abruptly. */
+.hero {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.hero--leaving {
+  opacity: 0;
+  transform: translateY(-12px) scale(0.97);
+  pointer-events: none;
+}
+.hero__mascot {
+  width: 112px;
+  height: 123px;
+  background-image: url("mascot/sprite_sheet.png");
+  background-repeat: no-repeat;
+  background-size: 2016px 123px;   /* 18 frames x 112px, native size */
+  background-position: 0 0;
+  animation:
+    mascot-cycle 1.8s steps(18) infinite,
+    mascot-bob 3.6s ease-in-out infinite;
+  filter: drop-shadow(0 10px 24px rgba(var(--coral-rgb), 0.25));
+}
+@keyframes mascot-cycle {
+  from { background-position-x: 0; }
+  to   { background-position-x: -2016px; }
+}
+@keyframes mascot-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.hero__greeting {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin: 0;
+  background: linear-gradient(120deg, var(--text-strong) 40%, var(--coral) 60%, var(--text-strong) 80%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: brand-sheen 6s linear infinite;
+}
+.hero__sub {
+  max-width: 380px;
+  color: var(--text-dim);
+  font-size: 14px;
+  line-height: 1.6;
+}
+@media (prefers-reduced-motion: reduce) {
+  .auth::before, .auth::after, .app::before,
+  .ledger__mark, .auth__brand,
+  .enter-anim {
+    animation: none !important;
+  }
+  .floor__composer button:hover,
+  .auth__submit:hover,
+  .upload-submit:hover,
+  .ledger__new:hover,
+  .chat-item:hover {
+    transform: none;
+  }
+  .island { animation: none; }
+  .hero__mascot { animation: none; }
+  .hero__greeting { animation: none; }
+}

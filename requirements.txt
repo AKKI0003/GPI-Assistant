@@ -1,0 +1,39 @@
+requests>=2.31.0
+rapidfuzz>=3.0.0
+rich>=13.0.0
+prompt_toolkit>=3.0.0
+matplotlib>=3.8.0
+
+# ── Web front end (web/app.py) + HTTP API (api/server.py) ──────────────────
+# Needed to run this as a browser-reachable server on your own laptop --
+# see RUNNING_REMOTELY.md.
+streamlit>=1.35.0
+fastapi>=0.110.0
+uvicorn>=0.29.0
+python-multipart>=0.0.9
+
+# ── Document ingestion (PDF / PPTX / images) ──────────────────────────────
+pymupdf>=1.24.0
+pymupdf4llm>=0.0.10
+python-pptx>=0.6.23
+Pillow>=10.0.0
+
+# ── PDF Document Intelligence pipeline (ingestion/ package) ───────────────
+# Independent second knowledge source (retrieval/pdf_retriever.py). Only
+# pdfplumber is strictly required; pypdf and camelot-py are optional
+# fallbacks/extras the ingestion package degrades gracefully without.
+pdfplumber>=0.11.0
+pypdf>=4.0.0
+camelot-py[cv]>=0.11.0     # optional: table-extraction fallback for pages pdfplumber misses
+openpyxl>=3.1.0
+chromadb>=0.5.0            # persistent vector store for retrieval/pdf_retriever.py's chunk cache
+
+# ── Local intelligence add-ons (both fully optional; everything degrades ──
+#    gracefully without them -- see retrieval/reranker.py and ingestion/ner.py)
+sentence-transformers>=2.7.0   # local cross-encoder reranker (retrieval/reranker.py)
+spacy>=3.7.0                   # local NER for company detection (ingestion/ner.py)
+# One-time model downloads (both run fully offline afterward, nothing leaves
+# the machine): the reranker's cross-encoder weights download automatically
+# from Hugging Face on first use (~90MB, cached locally); spaCy's model needs
+# an explicit one-time pull:
+#     python -m spacy download en_core_web_sm

@@ -1,0 +1,422 @@
+{
+  "company_profile": {
+    "records": [
+      {
+        "id": "C001",
+        "name": "Godfrey Phillips India (GPI) & Philip Morris International (PMI)",
+        "description": "Godfrey Phillips India operates as a major FMCG and tobacco company in India with strong affiliation to Philip Morris International, a global tobacco leader transitioning toward smoke-free products.",
+        "owner": "Dr. Bina Modi",
+        "status": "Active",
+        "relationships": {
+          "departments": [
+            "D001",
+            "D002",
+            "D003"
+          ],
+          "projects": [
+            "P001",
+            "P002"
+          ],
+          "processes": [
+            "PR001",
+            "PR003"
+          ],
+          "kpis": [
+            "KPI001",
+            "KPI002"
+          ]
+        },
+        "additional_info": {
+          "metadata_fields": [
+            {
+              "field": "Document Title",
+              "value": "Company Overview - Godfrey Phillips India",
+              "purpose": "Identifies the document in SharePoint search and libraries."
+            },
+            {
+              "field": "Company Name",
+              "value": "Godfrey Phillips India (GPI)",
+              "purpose": "Supports company-specific retrieval."
+            },
+            {
+              "field": "Document Type",
+              "value": "Company Overview",
+              "purpose": "Classifies the content type."
+            },
+            {
+              "field": "Business Domain",
+              "value": [
+                "FMCG",
+                "Tobacco",
+                "Cigarettes",
+                "Contract Manufacturing",
+                "Exports",
+                "Confectionery"
+              ],
+              "purpose": "Improves topic-based discovery."
+            },
+            {
+              "field": "Industry",
+              "value": "FMCG, tobacco, tobacco processing, exports, confectionery",
+              "purpose": "Supports industry filtering."
+            }
+          ],
+          "gpi_details": {
+            "incorporation_date": "1936-12-03",
+            "headquarters": "Omaxe Square, Jasola District Centre, New Delhi, India",
+            "leadership": {
+              "chairperson_md": "Dr. Bina Modi",
+              "ceo": "Sharad Aggarwal",
+              "coo": "Siddharth Chawla",
+              "cfo": "Vishal Dhariwal"
+            },
+            "ownership": {
+              "promoters": 72.58,
+              "philip_morris": 25.1,
+              "public": 2.32
+            },
+            "owner_note": "Dr. Bina Modi and the promoter group own and control Godfrey Phillips India (GPI) only. This ownership does NOT extend to Philip Morris International (PMI) -- PMI is a separate, independently owned, publicly traded multinational company and is not controlled by Dr. Bina Modi or GPI's promoters."
+          },
+          "pmi_global_strategy": {
+            "company_name": "Philip Morris International (PMI)",
+            "ownership_note": "Philip Morris International (PMI) is a separate, publicly traded, independently owned multinational company (NYSE: PM), headquartered in Lausanne, Switzerland. PMI is NOT owned by Dr. Bina Modi or GPI's promoter group. The relationship runs the other way: PMI itself holds a 25.1% minority equity stake IN Godfrey Phillips India (GPI). GPI and PMI are two distinct companies with different owners.",
+            "headquarters": "Lausanne",
+            "strategy": "Transition from combustible cigarettes to smoke-free products including heated tobacco, nicotine pouches, and e-vapor devices",
+            "product_transition_focus": [
+              "Heated Tobacco",
+              "Nicotine Pouches",
+              "E-Vapor Products"
+            ]
+          },
+          "products_services": {
+            "cigarettes": [
+              "Marlboro",
+              "L&M",
+              "Chesterfield",
+              "Philip Morris",
+              "Parliament",
+              "Bond Street",
+              "Virginia S.",
+              "Four Square",
+              "Red & White",
+              "Cavanders",
+              "Stellar"
+            ],
+            "heated_tobacco": [
+              "IQOS",
+              "TEREA",
+              "HEETS"
+            ],
+            "nicotine_pouches": [
+              "ZYN"
+            ],
+            "evapor_products": [
+              "VEEV"
+            ],
+            "tobacco_products": [
+              "leaf tobacco",
+              "cut tobacco",
+              "shisha",
+              "zarda"
+            ],
+            "services": [
+              "contract manufacturing",
+              "blending",
+              "product development",
+              "exports"
+            ],
+            "confectionery": "Funda"
+          },
+          "operations": {
+            "markets": "India and 30+ countries",
+            "global_presence": "170+ markets",
+            "distribution": {
+              "distributors": "1100+",
+              "retailers": "1000000+",
+              "sales_personnel": "9000+"
+            }
+          },
+          "cigarette_segmentation": {
+            "by_size": {
+              "nano": "<70 mm",
+              "regular": "70–84 mm",
+              "king_size": "84 mm",
+              "super_king": "94–100 mm",
+              "slim": "thin diameter",
+              "super_slim": "extra thin"
+            },
+            "by_type": [
+              "Full Flavor",
+              "Lights",
+              "Ultra Lights",
+              "Menthol",
+              "Charcoal Filter",
+              "Capsule",
+              "Heated Tobacco",
+              "Roll Your Own"
+            ],
+            "by_flavour": [
+              "Classic Tobacco",
+              "Virginia Blend",
+              "American Blend",
+              "Menthol",
+              "Mint",
+              "Berry",
+              "Grape",
+              "Blueberry",
+              "Watermelon",
+              "Citrus",
+              "Tropical Mix"
+            ],
+            "customer_segments": [
+              "Budget Smokers",
+              "Value Smokers",
+              "Premium Smokers",
+              "Young Adult Smokers",
+              "Traditional Smokers",
+              "Urban Professionals",
+              "Female Smokers",
+              "Alternative Nicotine Users"
+            ]
+          },
+          "pmi_strategic_segments": {
+            "premium_cigarettes": [
+              "Marlboro",
+              "Parliament"
+            ],
+            "mid_tier_cigarettes": [
+              "L&M",
+              "Chesterfield"
+            ],
+            "heated_tobacco": [
+              "IQOS",
+              "TEREA",
+              "HEETS"
+            ],
+            "smokefree": [
+              "ZYN",
+              "VEEV"
+            ]
+          },
+          "indian_market_overview": {
+            "market_share": {
+              "itc": "75–80%",
+              "gpi": "9–10%",
+              "vst": "4–9%",
+              "others": "<5%"
+            },
+            "key_players": [
+              "ITC",
+              "GPI",
+              "VST",
+              "Golden Tobacco"
+            ],
+            "trends": [
+              "Premiumization",
+              "Tax increases",
+              "Illicit trade growth",
+              "Shift to smoke-free alternatives"
+            ]
+          },
+          "segmentation_framework_insights": [
+            "Premiumization is accelerating across cigarette markets",
+            "Slim and capsule formats are fastest growing",
+            "Young smokers prefer flavored and premium variants",
+            "Format innovation drives consumer migration"
+          ],
+          "mission": "Deliver quality products through innovation, collaboration, and responsible growth.",
+          "vision": "Become a premier global tobacco player while transitioning toward smoke-free alternatives.",
+          "confectionery_segmentation": {
+            "brands": [
+              {
+                "name": "GumShums",
+                "type": "Mint Chewing Gum",
+                "flavor": "Mint",
+                "target_segment": "Young consumers, urban users",
+                "positioning": "Fresh breath, daily chewing gum",
+                "price_segment": "Affordable"
+              },
+              {
+                "name": "Burst",
+                "type": "Hard Candy",
+                "flavor": "Kaccha Aam (Raw Mango)",
+                "target_segment": "Kids and teenagers",
+                "positioning": "Tangy, nostalgia-driven flavor",
+                "price_segment": "Low-cost impulse buy"
+              },
+              {
+                "name": "LemonChaska",
+                "type": "Hard Candy",
+                "flavor": "Lemon",
+                "target_segment": "Mass market",
+                "positioning": "Sweet and sour everyday candy",
+                "price_segment": "Economy"
+              },
+              {
+                "name": "Naturalz",
+                "type": "Traditional Candy",
+                "flavor": "Imli (Tamarind)",
+                "target_segment": "Traditional taste consumers",
+                "positioning": "Authentic Indian flavors",
+                "price_segment": "Affordable"
+              }
+            ],
+            "segmentation_dimensions": {
+              "by_flavor": [
+                "Mint",
+                "Fruity (Mango, Lemon)",
+                "Traditional (Imli)",
+                "Sweet & Sour"
+              ],
+              "by_format": [
+                "Chewing Gum",
+                "Hard Candy",
+                "Center-filled Candy"
+              ],
+              "by_customer_segment": [
+                "Kids",
+                "Teenagers",
+                "Young Adults",
+                "Mass Market",
+                "Traditional Consumers"
+              ],
+              "by_price_segment": [
+                "Economy",
+                "Affordable",
+                "Impulse Purchase"
+              ]
+            },
+            "market_insights": [
+              "Impulse purchases dominate confectionery sales",
+              "Regional flavors like imli and kaccha aam drive high acceptance in India",
+              "Chewing gum targets urban youth and daily consumption",
+              "Low price points ensure high-volume sales"
+            ],
+            "historical_timeline": {
+              "description": "A chronological timeline representing the historical evolution, expansion, and strategic transformation of Godfrey Phillips India from its early global origins to its modern diversified FMCG and tobacco business.",
+              "milestones": [
+                {
+                  "year": "1844",
+                  "event": "Origins of Godfrey Phillips established in London",
+                  "significance": "Marks the global roots of the company"
+                },
+                {
+                  "year": "1936",
+                  "event": "Establishment of Godfrey Phillips operations in India",
+                  "significance": "Beginning of Indian business presence"
+                },
+                {
+                  "year": "1957",
+                  "event": "Opening of first branch in Delhi",
+                  "significance": "Start of domestic distribution expansion"
+                },
+                {
+                  "year": "1960",
+                  "event": "Opening of Mumbai branch",
+                  "significance": "Expansion into western India"
+                },
+                {
+                  "year": "1967",
+                  "event": "Tobacco manufacturing factory established in Gujarat",
+                  "significance": "Strengthening manufacturing capabilities"
+                },
+                {
+                  "year": "1975–1978",
+                  "event": "Expansion into Hyderabad and Ahmedabad",
+                  "significance": "Pan-India presence development"
+                },
+                {
+                  "year": "1979",
+                  "event": "KK Modi took over operations of GPI",
+                  "significance": "Transition into Modi Group leadership"
+                },
+                {
+                  "year": "1980–1990",
+                  "event": "Strong advertising and brand building phase",
+                  "significance": "Growth from smaller player to major industry position"
+                },
+                {
+                  "year": "1990s",
+                  "event": "Expansion into tobacco leaf division in Andhra Pradesh",
+                  "significance": "Vertical integration in supply chain"
+                },
+                {
+                  "year": "1997",
+                  "event": "Opening of Chandigarh branch",
+                  "significance": "Expansion into northern markets"
+                },
+                {
+                  "year": "2003",
+                  "event": "Launch of Tipper and international business expansion",
+                  "significance": "Entry into exports and product diversification"
+                },
+                {
+                  "year": "2004",
+                  "event": "Insight Tobacco Craft Institute established",
+                  "significance": "Focus on R&D and quality systems"
+                },
+                {
+                  "year": "2007",
+                  "event": "Launch of Stellar brand",
+                  "significance": "Premium product portfolio expansion"
+                },
+                {
+                  "year": "2008",
+                  "event": "Entry into eastern markets with Kolkata branch",
+                  "significance": "Geographic expansion"
+                },
+                {
+                  "year": "2009",
+                  "event": "Partnership alignment with Philip Morris for Marlboro",
+                  "significance": "Global brand collaboration"
+                },
+                {
+                  "year": "2011",
+                  "event": "Reconstituted tobacco (Recon) factory established",
+                  "significance": "Advanced manufacturing capabilities"
+                },
+                {
+                  "year": "2014",
+                  "event": "Corporate office moved to Omaxe Towers, Delhi",
+                  "significance": "Modern corporate infrastructure"
+                },
+                {
+                  "year": "2016",
+                  "event": "Expansion of cigarette portfolio (Four Square, Red & White, Stellar)",
+                  "significance": "Brand strengthening"
+                },
+                {
+                  "year": "2017",
+                  "event": "Expansion into confectionery with Funda and Burst",
+                  "significance": "FMCG diversification beyond tobacco"
+                },
+                {
+                  "year": "2018",
+                  "event": "Launch of capsule-based cigarette innovation",
+                  "significance": "Product innovation to attract younger consumers"
+                },
+                {
+                  "year": "2019",
+                  "event": "Certified as Great Place to Work",
+                  "significance": "Recognition for workplace culture"
+                },
+                {
+                  "year": "2022",
+                  "event": "Launch of Focus brand and continued portfolio innovation",
+                  "significance": "Modern brand targeting younger demographics"
+                }
+              ],
+              "strategic_evolution_summary": [
+                "Initial phase focused on establishment and distribution expansion",
+                "Mid-phase emphasized manufacturing scale and leadership transition",
+                "Growth phase driven by branding, advertising, and national expansion",
+                "Modern phase defined by globalization, PMI collaboration, and export growth",
+                "Recent phase highlights diversification into FMCG and product innovation"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  }
+}
