@@ -10,7 +10,7 @@ pip install -r requirements.txt
 
 # 2. Start Ollama with Llama 3.1:8b
 ollama serve
-ollama pull llama3.1:8b-instruct-q4_K_M
+ollama pull qwen3:8b
 
 # 3. Run the terminal assistant
 python main.py
