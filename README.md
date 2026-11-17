@@ -8,7 +8,7 @@ Enterprise RAG-powered knowledge assistant for Godfrey Phillips India.
 # 1. Install dependencies
 pip install -r requirements.txt
 
-# 2. Start Ollama with Llama 3.1:8b
+# 2. Start Ollama with qwen3:8b
 ollama serve
 ollama pull qwen3:8b
 
